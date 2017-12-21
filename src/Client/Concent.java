@@ -1,7 +1,5 @@
 package Client;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.Map;
 public class Concent {
@@ -20,7 +18,6 @@ public class Concent {
 	Concent(Map<String,String> mp) throws IOException{
 		Concention("UDP_Port");
 		this.mp = mp;
-		//init();
 	}
 	private void Concention(String type) throws IOException {
 		DatagramSocket ds= new DatagramSocket();
@@ -31,16 +28,14 @@ public class Concent {
 		int value;
 		value = ByteProcessingFunction.bytesToInt(src, 0);
 	    DEST_PORT = value;
+	    ds.close();
 	}
 	
 	private void init() throws IOException {
 		ds = new DatagramSocket();
 		byte[] outbuff = new byte[DATA_LEN];
 		byte[] inbuff = new byte[DATA_LEN];
-		/*ByteArrayOutputStream bout=new ByteArrayOutputStream();
-		ObjectOutputStream objout = new ObjectOutputStream(bout);
-		objout.writeObject(mp);
-		outbuff = bout.toByteArray();*/
+
 		
 		outbuff = ByteProcessingFunction.objectToBytes(mp);
 		
@@ -74,7 +69,7 @@ public class Concent {
 			throw new IOException("发送失败，请重新尝试连接");
 		return response;
 	}
-	private DatagramSocket getDatagramSocket() {
+	DatagramSocket getDatagramSocket() {
 		return ds;
 	}
 	void Close() {

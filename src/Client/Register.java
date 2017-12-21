@@ -3,21 +3,18 @@ package Client;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.*;
 public class Register {
 	private Concent con = null;
 	private Map<String,String>mp = null;
 	private String Username = null;
 	private String Password = null;
+	private String response;
 	Register() throws IOException{
-		//init();
 		mp = new HashMap<String,String>();
 	}
 	void init() throws IOException {
-		
-		//setUsername();
-		//setPassword();
+
 		mp.clear();
 		mp.put("Type", "Register");
 		mp.put("Username", Username);
@@ -26,18 +23,14 @@ public class Register {
 		//Send();
 	}
 	
-	void setUsername() {
-		/*Scanner s = new Scanner(System.in);
-		Username = s.nextLine();
-		s.close();*/
-		this.Username = "a123";
+	void setUsername(String Username) {
+
+		this.Username = Username;
 	}
 	
-	void setPassword() {
-		/*Scanner s = new Scanner(System.in);
-		Password = s.nextLine();
-		s.close();*/
-		this.Password = "a123";
+	void setPassword(String Password) {
+
+		this.Password = Password;
 	}
 	boolean checkUsername(){
 		String pattern = "[a-zA-Z_]{1,}[0-9]{0,}";
@@ -51,14 +44,16 @@ public class Register {
 		init();
 		if(checkPassword()&&checkUsername()) {
 			byte[] src = con.Send();
-			int value = 0;  
-	        
-			value = ByteProcessingFunction.bytesToInt(src, 0);
-		    System.out.println("注册成功，你的ID:"+value);
+			int ID;
+			ID = ByteProcessingFunction.bytesToInt(src, 0);
+		    response =  Integer.toString(ID);
 		}else {
-			System.out.println("账号或密码不符合要求，重新输入");
+			response = "账号或密码不符合要求，重新输入";
 		}
 		
+	}
+	String getResponse() {
+		return response;
 	}
 	private void Close() {
 		con.Close();

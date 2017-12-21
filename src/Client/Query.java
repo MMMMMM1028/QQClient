@@ -3,7 +3,6 @@ package Client;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Query {
@@ -11,10 +10,9 @@ public class Query {
 	private Map<String,String>mp = null;
 	private String ToId= null;
 	private String FromId = null;
+	private ArrayList<Map<String ,String>> response =null;
 	Query() throws IOException{
-		//init();
 		mp = new HashMap<String,String>();
-		setToId();
 	}
 	void init() throws IOException {
 		mp.clear();
@@ -23,23 +21,20 @@ public class Query {
 		mp.put("From", "1");
 		con = new Concent(mp);
 	}
-	void setFrom() {
-		
+	void setFromId(String FromId) {
+		this.FromId = FromId;
 	}
-	void setToId() {
-		//Scanner s = new Scanner(System.in);
-		//ID = s.nextLine();
-		//s.close();
-		this.ToId = "2";
+	void setToId(String ToId) {
+
+		this.ToId = ToId;
 	}
 	void Send() throws IOException, ClassNotFoundException {
 		init();
 		byte[] result = con.Send();
-		// ObjectInputStream objIn = new ObjectInputStream(new ByteArrayInputStream(result));
-	    //List<Map> list = (List) objIn.readObject();
-		List list = new ArrayList();
-		list = (List)ByteProcessingFunction.bytesToObject(result);
-		//System.out.println(list.toString());
-		int x = 1;
+		response = new ArrayList<Map<String ,String>>();
+		response = (ArrayList)ByteProcessingFunction.bytesToObject(result);
+	}
+	ArrayList<Map<String ,String>> getResponse() {
+		return response;
 	}
 }
